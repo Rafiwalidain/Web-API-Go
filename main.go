@@ -1,7 +1,7 @@
 package main
 
 import (
-	"net/http"
+	"pustaka-api/handler"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,61 +11,17 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("/", rootHandler)
+	v1 := router.Group("/v1")
 
-	router.GET("/ping", pingHandler)
+	v1.GET("/", handler.RootHandler)
 
-	router.GET("/book/:id", booksHandler)
+	v1.GET("/ping", handler.PingHandler)
 
-	router.GET("/query", queryHandler)
+	v1.GET("/book/:id", handler.BooksHandler)
 
-	router.POST("/book", postBookHandler)
+	v1.GET("/query", handler.QueryHandler)
+
+	v1.POST("/book", handler.PostBookHandler)
 
 	router.Run()
-}
-
-func rootHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-		"nama":    "rafi",
-	})
-}
-
-func pingHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "alolo",
-		"nama":    "mamam",
-	})
-}
-
-func booksHandler(c *gin.Context) {
-	id := c.Param("id")
-	c.JSON(http.StatusOK, gin.H{
-		"message": "book id is " + id,
-	})
-}
-
-func queryHandler(c *gin.Context) {
-	name := c.Query("name")
-	c.JSON(http.StatusOK, gin.H{
-		"message": "query name is " + name,
-	})
-}
-
-type Books struct {
-	Title  string `json:"title"`
-	Author string `json:"author"`
-}
-
-func postBookHandler(c *gin.Context) {
-	var newBooks Books
-	if err := c.ShouldBindJSON(&newBooks); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"title":  newBooks.Title,
-			"author": newBooks.Author,
-		})
-	}
 }
