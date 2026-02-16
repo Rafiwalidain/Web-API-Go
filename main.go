@@ -2,6 +2,7 @@ package main
 
 import (
 	// "fmt"
+	"fmt"
 	"pustaka-api/book"
 	"pustaka-api/handler"
 
@@ -22,16 +23,31 @@ func main() {
 	// fmt.Println("Database connected successfully")
 	db.AutoMigrate(&book.Book{})
 
-	book := book.Book{}
-	book.Title = "Belajar Golang ke 3"
-	book.Author = "Rafi walidan"
-	book.Price = 40000
-	book.Rating = 4
+	// book := book.Book{}
+	// book.Title = "Belajar Golang ke 3"
+	// book.Author = "Rafi walidan"
+	// book.Price = 40000
+	// book.Rating = 4
 
-	err = db.Create(&book).Error
+	// err = db.Create(&book).Error
+	// if err != nil {
+	// 	panic("failed to create book")
+	// }
+
+	var books []book.Book
+
+	err = db.Find(&books).Error
 	if err != nil {
-		panic("failed to create book")
+		panic("failed to get book")
 	}
+
+	for _, book := range books {
+		fmt.Println("Book title:", book.Title)
+		fmt.Printf("Book objek: %+v\n", book)
+	}
+
+	
+	// fmt.Printf("Book objek: %+v\n", book)
 
 	router := gin.Default()
 
