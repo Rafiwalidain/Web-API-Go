@@ -22,6 +22,36 @@ func main() {
 	// fmt.Println("Database connected successfully")
 	db.AutoMigrate(&book.Book{})
 
+	bookRepository := book.NewRepository(db)
+	
+	book := book.Book{
+		Title: "belajar baru",
+		Author: "maja",
+		Price: 50000,
+		Rating: 4,
+	}
+
+	bookRepository.Create(book)
+
+	// find all books ================================
+	// books, err := bookRepository.FindAll()
+	// if err != nil {
+	// 	panic("failed to get books")
+	// }
+
+	// for _, book := range books {
+	// 	fmt.Println("Book title:", book.Title)
+	// 	fmt.Printf("Book objek: %+v\n", book)
+	// }
+
+	// find book by id ================================
+	// book, err := bookRepository.FindByID(2)
+	// if err != nil {
+	// 	panic("failed to get book")
+	// }
+	// fmt.Println("Book title:", book.Title)
+
+	// ================================ belum layer==================================
 	// create book
 	// book := book.Book{}
 	// book.Title = "Belajar Golang ke 3"
@@ -34,13 +64,13 @@ func main() {
 	// 	panic("failed to create book")
 	// }
 
-	var book book.Book
+	// var book book.Book
 
 	// read (ada di documentasi gorm)
-	err = db.Where("id = ?", 1).Find(&book).Error
-	if err != nil {
-		panic("failed to get book")
-	}
+	// err = db.Where("id = ?", 1).Find(&book).Error
+	// if err != nil {
+	// 	panic("failed to get book")
+	// }
 
 	// update
 	// book.Title = "Belajar Golang revised"
@@ -57,10 +87,11 @@ func main() {
 	// }
 
 	// delete
-	err = db.Delete(&book).Error
-	if err != nil {
-		panic("failed to delete book")
-	}
+	// err = db.Delete(&book).Error
+	// if err != nil {
+	// 	panic("failed to delete book")
+	// }
+	// ================================ belum layer==================================
 
 	router := gin.Default()
 
