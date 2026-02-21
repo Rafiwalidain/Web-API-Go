@@ -23,15 +23,16 @@ func main() {
 	db.AutoMigrate(&book.Book{})
 
 	bookRepository := book.NewRepository(db)
+	bookService := book.NewService(bookRepository)
 	
-	book := book.Book{
+	bookRequest := book.BookRequest{
 		Title: "belajar baru",
 		Author: "maja",
 		Price: 50000,
 		Rating: 4,
 	}
 
-	bookRepository.Create(book)
+	bookService.Create(bookRequest)
 
 	// find all books ================================
 	// books, err := bookRepository.FindAll()
@@ -108,4 +109,11 @@ func main() {
 	v1.POST("/books", handler.PostBookHandler)
 
 	router.Run()
+
+	// main
+	// handler
+	// service
+	// repository
+	// database
+	// entity / mysql table
 }
