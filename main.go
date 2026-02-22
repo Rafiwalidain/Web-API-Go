@@ -24,15 +24,8 @@ func main() {
 
 	bookRepository := book.NewRepository(db)
 	bookService := book.NewService(bookRepository)
+	bookHandler := handler.NewbookHandler(bookService)
 	
-	bookRequest := book.BookRequest{
-		Title: "belajar baru",
-		Author: "maja",
-		Price: 50000,
-		Rating: 4,
-	}
-
-	bookService.Create(bookRequest)
 
 	// find all books ================================
 	// books, err := bookRepository.FindAll()
@@ -98,15 +91,15 @@ func main() {
 
 	v1 := router.Group("/v1")
 
-	v1.GET("/", handler.RootHandler)
+	v1.GET("/", bookHandler.RootHandler)
 
-	v1.GET("/ping", handler.PingHandler)
+	v1.GET("/ping", bookHandler.PingHandler)
 
-	v1.GET("/books/:id", handler.BooksHandler)
+	v1.GET("/books/:id", bookHandler.BooksHandler)
 
-	v1.GET("/query", handler.QueryHandler)
+	v1.GET("/query", bookHandler.QueryHandler)
 
-	v1.POST("/books", handler.PostBookHandler)
+	v1.POST("/books", bookHandler.PostBookHandler)
 
 	router.Run()
 

@@ -39,6 +39,7 @@ func (s *service) Create(bookRequest BookRequest) (Book, error) {
 
 func (s *service) Update(ID int, bookRequest BookRequest) (Book, error) {
 	book := Book{
+		Id:     ID,
 		Title:  bookRequest.Title,
 		Author: bookRequest.Author,
 		Price:  bookRequest.Price,
